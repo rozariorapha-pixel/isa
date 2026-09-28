@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07080c">
+<title>Isa 💖</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:#07080c;color:#f4f4f7;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;min-height:100vh;overflow-x:hidden}
+.bg{position:fixed;inset:0;background:radial-gradient(circle at 50% 0%,#2c2446 0%,#0c0d14 40%,#07080c 78%);z-index:-2}
+.grid{position:fixed;inset:0;opacity:.09;background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:42px 42px;z-index:-1}
+.wrap{max-width:520px;margin:auto;padding:24px 18px 40px}
+.card{background:rgba(18,19,27,.85);border:1px solid rgba(255,255,255,.1);border-radius:26px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.45);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);animation:in .5s ease}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.logo{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,#fff,#ff9ec4);color:#08090d;font-weight:900;font-size:25px;margin-bottom:20px}
+h1{font-size:29px;line-height:1.1;margin:0 0 10px}
+h2{font-size:23px;margin:0 0 10px}
+p{color:#b4b6c2;line-height:1.55;margin:8px 0}
+.tag{display:inline-block;padding:7px 10px;border-radius:999px;background:#2b2740;color:#ffd6e7;font-size:12px;font-weight:700;letter-spacing:.5px;margin-bottom:15px}
+button{width:100%;border:0;border-radius:15px;padding:15px 16px;font-size:16px;font-weight:800;background:#f5f5f7;color:#090a0e;margin-top:14px;cursor:pointer;font-family:inherit}
+button:active{transform:scale(.98)}
+.choice{background:#171822;border:1px solid #30313d;color:#fff;text-align:left;font-weight:600}
+.pink{background:linear-gradient(135deg,#ff8fb8,#ffb3d1)}
+.progress{height:5px;background:#242530;border-radius:10px;overflow:hidden;margin:20px 0 4px}
+.bar{height:100%;width:0;background:linear-gradient(90deg,#fff,#ff9ec4);transition:width .5s}
+.status{font-family:ui-monospace,Menlo,monospace;color:#c3c4cf;font-size:13px;min-height:110px;margin-top:18px;line-height:1.7}
+.hidden{display:none!important}
+.center{text-align:center}
+.heart{font-size:54px;color:#ff8fb8;animation:pulse 1.2s infinite}
+@keyframes pulse{50%{transform:scale(1.12)}}
+.result{margin-top:18px;padding:18px;border-radius:18px;background:#101118;border:1px solid rgba(255,255,255,.09)}
+.big{font-size:52px;font-weight:900;letter-spacing:-2px}
+.small{font-size:12px;color:#858794}
+.footer{margin-top:18px;text-align:center;font-size:11px;color:#646673}
+.spark{position:fixed;pointer-events:none;font-size:22px;color:#ff8fb8;animation:fall 2s ease-out forwards;z-index:10}
+@keyframes fall{0%{transform:translateY(0) scale(.5);opacity:0}15%{opacity:1}100%{transform:translateY(280px) rotate(180deg);opacity:0}}
+input{width:100%;padding:15px;border-radius:14px;border:1px solid #30313d;background:#0d0e14;color:#fff;font-size:16px;outline:none;margin-top:12px}
+input:focus{border-color:#ff9ec4}
+#nao{position:relative}
+#nao.fly{position:fixed;width:auto;padding:12px 18px;z-index:20;transition:left .25s,top .25s}
+a.btn{display:block;text-decoration:none;text-align:center;border-radius:15px;padding:15px;font-weight:800;margin-top:14px;background:#25d366;color:#04140a}
+</style>
+</head>
+<body>
+<div class="bg"></div><div class="grid"></div>
+<div class="wrap">
+
+<section id="s-start" class="card" data-screen>
+  <div class="logo">♥</div>
+  <span class="tag">ISA · ARQUIVO 03</span>
+  <h1>Bem-vinda, Isa, meu amor. 💖</h1>
+  <p>Você foi selecionada para uma nova análise. A gente já se conhece, mas o sistema precisa de dados atualizados.</p>
+  <p class="small">*A parte científica foi adicionada apenas para dar credibilidade.</p>
+  <button id="b-start">INICIAR ANÁLISE</button>
+</section>
+
+<section id="s-scan" class="card hidden" data-screen>
+  <span class="tag">PROCESSAMENTO</span>
+  <h2>Analisando...</h2>
+  <div class="progress"><div class="bar" id="bar"></div></div>
+  <div class="status" id="status"></div>
+</section>
+
+<section id="s-quiz" class="card hidden" data-screen>
+  <span class="tag" id="qtag"></span>
+  <h2 id="qtitle"></h2>
+  <div id="choices"></div>
+  <div class="progress"><div class="bar" id="qbar"></div></div>
+</section>
+
+<section id="s-final" class="card hidden center" data-screen>
+  <div class="heart">♥</div>
+  <span class="tag">ANÁLISE CONCLUÍDA</span>
+  <h1 id="rtitle">Resultado encontrado.</h1>
+  <div class="result">
+    <div class="small">COMPATIBILIDADE DETECTADA</div>
+    <div class="big" id="pct">0,0%</div>
+    <p>O sistema tentou encontrar uma explicação lógica.</p>
+    <p><b>Não encontrou.</b></p>
+    <div id="resumo" class="small" style="text-align:left;margin-top:14px;line-height:1.8"></div>
+  </div>
+  <button id="b-reveal">VER CONCLUSÃO</button>
+</section>
+
+<section id="s-msg" class="card hidden center" data-screen>
+  <div class="logo" style="margin:0 auto 18px">✓</div>
+  <span class="tag">CONCLUSÃO</span>
+  <h2>Diagnóstico confirmado.</h2>
+  <p id="typed"></p>
+  <div class="result">
+    <p><b>Eu gosto cada vez mais de você.</b></p>
+    <p>O sistema não foi programado para mentir.</p>
+  </div>
+  <div id="ask" class="hidden">
+    <h2 style="margin-top:22px">Quer sair comigo de novo? 😌</h2>
+    <button id="sim" class="pink">Sim, aceito 💖</button>
+    <button id="nao" class="secondary choice">Preciso pensar</button>
+  </div>
+  <div id="yes" class="hidden result">
+    <h2 id="cartaTitulo" class="hidden">Resultado registrado. 🎉</h2>
+    <p id="letter" class="small" style="text-align:left;min-height:60px"></p>
+    <a id="wa" class="btn hidden" target="_blank" rel="noopener">Enviar minhas respostas no WhatsApp</a>
+    <p id="waHint" class="small hidden">As respostas vão junto na mensagem e você vê tudo antes de enviar.</p>
+  </div>
+  <div class="footer">Desenvolvido com código, coragem e uma quantidade questionável de confiança.</div>
+</section>
+
+</div>
+<script>
+// ====== PERSONALIZE AQUI ======
+var TELEFONE = "5516988759394";   // ex: "5511999999999" (com código do país). Vazio = ela escolhe o contato.
+var CARTA = "Poxa, Isa... eu sabia que você ia aceitar, mas mesmo assim fiquei nervoso esperando. Obrigado por topar ficar comigo de novo, e por aguentar essas ideias malucas minhas. Tá vendo do que eu sou capaz? É só ficar comigo. 💖";
+// ==============================
+
+var $ = function(id){ return document.getElementById(id); };
+var nome = "Isa", pontos = 0, passo = 0;
+
+function mostrar(id){
+  var t = document.querySelectorAll("[data-screen]");
+  for (var i = 0; i < t.length; i++) t[i].classList.add("hidden");
+  $(id).classList.remove("hidden");
+  window.scrollTo(0, 0);
+}
+
+function iniciar(){
+  mostrar("s-scan");
+  var n = nome || "você";
+  var linhas = [
+    "Abrindo a conversa com " + n + "...",
+    "Pensando em você de novo, sem motivo específico...",
+    "Tentando lembrar a última vez que não pensei em você... falha total.",
+    "Decidindo parar de disfarçar o quanto eu gosto de você...",
+    "Ignorando qualquer coisa que tente me fazer mudar de ideia...",
+    "Quase lá..."
+  ];
+  var i = 0, st = $("status");
+  st.textContent = "";
+  var t = setInterval(function(){
+    st.appendChild(document.createTextNode("> " + linhas[i]));
+    st.appendChild(document.createElement("br"));
+    i++;
+    $("bar").style.width = (i / linhas.length * 100) + "%";
+    if (i >= linhas.length){ clearInterval(t); setTimeout(quiz, 800); }
+  }, 750);
+}
+
+// [pergunta, opções, rótulo curto para o resumo] - edite à vontade
+var perguntas = [
+  ["Bora ser sincera: se eu chamasse você agora pra sair, você ia largar tudo?", ["Na hora", "Ia dar um jeitinho", "Ia fingir que pensou antes de aceitar 😌", "Só se fosse pra algo bom"], "Se eu chamasse agora"],
+  ["Que tipo de dia com a gente te deixa mais feliz?", ["Ir observar capivaras 🦫", "Só ficar de love, sem sair de casa", "Queimar pipoca no micro-ondas 🍿", "Um encontro caprichado, com clima"], "Dia perfeito"],
+  ["Quando eu demoro pra responder, o que passa na sua cabeça?", ["Nada, confio em você", "Um ciuminho besta", "Fico só pensando no que você tá fazendo", "Mando um oi de novo, sem vergonha"], "Quando eu demoro"],
+  ["Verdade rápida: quem manda mensagem primeiro na maioria das vezes?", ["Eu", "Você", "A gente manda quase junto", "Não sei, só sei que rola sempre"], "Quem chama primeiro"],
+  ["Se eu te falasse agora que gosto de você, você reagiria como?", ["Um sorriso bobo, na hora", "Fingindo que já sabia", "Ficando toda boba mesmo", "Só respondendo 'eu sei' 😏"], "Se eu falasse agora"]
+];
+var respostas = [];
+
+function quiz(){ passo = 0; pontos = 0; respostas = []; mostrar("s-quiz"); pergunta(); }
+
+function pergunta(){
+  $("qtag").textContent = "ETAPA " + (passo + 1) + "/" + perguntas.length;
+  $("qtitle").textContent = perguntas[passo][0];
+  $("qbar").style.width = (passo / perguntas.length * 100) + "%";
+  var c = $("choices"); c.innerHTML = "";
+  perguntas[passo][1].forEach(function(txt){
+    var b = document.createElement("button");
+    b.className = "choice"; b.textContent = txt;
+    b.addEventListener("click", function(){ respostas.push(txt); proxima(); });
+    c.appendChild(b);
+  });
+}
+
+function proxima(){
+  passo++;
+  if (passo < perguntas.length){ pergunta(); }
+  else { $("qbar").style.width = "100%"; setTimeout(final, 300); }
+}
+
+function final(){
+  mostrar("s-final");
+  if (nome) $("rtitle").textContent = "Resultado encontrado, " + nome + ".";
+  var rs = $("resumo"); rs.textContent = "";
+  perguntas.forEach(function(q, k){
+    var d = document.createElement("div");
+    d.textContent = "• " + q[2] + ": " + respostas[k];
+    rs.appendChild(d);
+  });
+  var alvo = 97.8, v = 0, el = $("pct");
+  var t = setInterval(function(){
+    v += 2.4;
+    if (v >= alvo){ v = alvo; clearInterval(t); }
+    el.textContent = v.toFixed(1).replace(".", ",") + "%";
+  }, 35);
+}
+
+function revelar(){
+  mostrar("s-msg");
+  var texto = "Depois de analisar os dados disponíveis, o sistema chegou a uma conclusão que provavelmente você já suspeitava...";
+  var i = 0, el = $("typed"); el.textContent = "";
+  var t = setInterval(function(){
+    el.textContent += texto.charAt(i++);
+    if (i >= texto.length){ clearInterval(t); setTimeout(function(){ $("ask").classList.remove("hidden"); }, 400); }
+  }, 28);
+}
+
+var fugas = 0, rendido = false;
+function fugir(e){
+  if (e) e.preventDefault();
+  var b = $("nao");
+  if (rendido){ if (e && e.type === "click") aceitar(); return; }
+  fugas++;
+  if (fugas > 4){ rendido = true; b.textContent = "Tá bom, aceito 😅"; b.classList.remove("fly"); b.removeAttribute("style"); return; }
+  b.classList.add("fly");
+  b.style.left = Math.max(10, Math.random() * (window.innerWidth - 150)) + "px";
+  b.style.top = Math.max(60, Math.random() * (window.innerHeight - 100)) + "px";
+}
+
+function chuva(){
+  var sim = ["♥", "♡", "✦", "❤"];
+  for (var i = 0; i < 30; i++){
+    var s = document.createElement("div");
+    s.className = "spark";
+    s.textContent = sim[Math.floor(Math.random() * sim.length)];
+    s.style.left = (Math.random() * 100) + "vw";
+    s.style.top = (10 + Math.random() * 40) + "vh";
+    s.style.animationDelay = (Math.random() * .8) + "s";
+    document.body.appendChild(s);
+    (function(x){ setTimeout(function(){ x.remove(); }, 3000); })(s);
+  }
+}
+
+function aceitar(){
+  $("ask").classList.add("hidden");
+  $("yes").classList.remove("hidden");
+  chuva();
+  var i = 0, el = $("letter");
+  var t = setInterval(function(){
+    el.textContent += CARTA.charAt(i++);
+    if (i >= CARTA.length){
+      clearInterval(t);
+      setTimeout(function(){
+        $("cartaTitulo").classList.remove("hidden");
+        $("wa").classList.remove("hidden");
+        $("waHint").classList.remove("hidden");
+        var msg = CARTA + "\n\nMinhas respostas:";
+        perguntas.forEach(function(q, k){ msg += "\n• " + q[2] + ": " + respostas[k]; });
+        $("wa").href = "https://wa.me/" + TELEFONE + "?text=" + encodeURIComponent(msg);
+      }, 500);
+    }
+  }, 28);
+}
+
+$("b-start").addEventListener("click", iniciar);
+$("b-reveal").addEventListener("click", revelar);
+$("sim").addEventListener("click", aceitar);
+$("nao").addEventListener("mouseenter", fugir);
+$("nao").addEventListener("touchstart", fugir, {passive:false});
+$("nao").addEventListener("click", fugir);
+</script>
+</body>
+</html>
